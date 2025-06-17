@@ -141,6 +141,22 @@ st.markdown("""
         background: linear-gradient(135deg, #764ba2, #667eea);
         transform: translateY(-1px);
     }
+    html, body, .stApp {
+        height: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background-size: cover !important;
+        background-attachment: fixed !important;
+    }
+
+    .block-container {
+        padding: 2rem 1rem;
+        background-color: rgba(255, 255, 255, 0.9) !important;
+        border-radius: 16px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
 </style>
 """, unsafe_allow_html=True)
 
