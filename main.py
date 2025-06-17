@@ -154,7 +154,7 @@ st.markdown("""
     .block-container {
         padding: 2rem 1rem;
         background-color: rgba(255, 255, 255, 0.9) !important;
-        border-radius: 16px;
+        border-radius: 20px;
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
     }
 </style>
