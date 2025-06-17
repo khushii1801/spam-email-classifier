@@ -155,25 +155,24 @@ def clean_text(text):
 # Load model and vectorizer
 @st.cache_resource
 def load_model():
-    model_url = " https://drive.google.com/file/d/14G5dD8-KxQY94bAVI1zWGyxyDQCfBpAo/view?usp=drive_link"
-    vectorizer_url = "https://drive.google.com/file/d/17gpEgFMxPz0HLWFG0_O3F9Feju2UcODZ/view?usp=drive_link"
+    model_id = "14G5dD8-KxQY94bAVI1zWGyxyDQCfBpAo"
+    vectorizer_id = "17gpEgFMxPz0HLWFG0_O3F9Feju2UcODZ"
 
     if not os.path.exists("model.pkl"):
-        gdown.download(model_url, "model.pkl", quiet=False)
+        gdown.download(f"https://drive.google.com/uc?id={model_id}", "model.pkl", quiet=False)
 
     if not os.path.exists("vectorizer.pkl"):
-        gdown.download(vectorizer_url, "vectorizer.pkl", quiet=False)
+        gdown.download(f"https://drive.google.com/uc?id={vectorizer_id}", "vectorizer.pkl", quiet=False)
 
-    with open('model.pkl', 'rb') as f:
+    with open("model.pkl", "rb") as f:
         model = pickle.load(f)
-    with open('vectorizer.pkl', 'rb') as f:
+    with open("vectorizer.pkl", "rb") as f:
         vectorizer = pickle.load(f)
 
-    return model, vectorizer, True
+    return model, vectorizer
 # Main app
 def main():
     st.markdown("<div class='main-container'>", unsafe_allow_html=True)
-    # Header with new color scheme
     st.markdown("<h1>🛡️ AI Spam Guardian</h1>", unsafe_allow_html=True)
     st.markdown("<p class='subtitle'>Advanced Email Classification System</p>", unsafe_allow_html=True)
     
