@@ -155,8 +155,8 @@ def clean_text(text):
 # Load model and vectorizer
 @st.cache_resource
 def load_model():
-    model_url = " https://drive.google.com/file/d/14G5dD8-KxQY94bAVI1zWGyxyDQCfBpAo/view?usp=drive_link"
-    vectorizer_url = "https://drive.google.com/file/d/17gpEgFMxPz0HLWFG0_O3F9Feju2UcODZ/view?usp=drive_link"
+    model_url = "https://drive.google.com/uc?id=14G5dD8-KxQY94bAVI1zWGyxyDQCfBpAo"
+    vectorizer_url = "https://drive.google.com/uc?id=17gpEgFMxPz0HLWFG0_O3F9Feju2UcODZ"
 
     if not os.path.exists("model.pkl"):
         gdown.download(model_url, "model.pkl", quiet=False)
@@ -169,8 +169,7 @@ def load_model():
     with open('vectorizer.pkl', 'rb') as f:
         vectorizer = pickle.load(f)
 
-    return model, vectorizer, True
-# Main app
+    return model, vectorizer
 def main():
     # Header with new color scheme
     st.markdown("<h1>🛡️ AI Spam Guardian</h1>", unsafe_allow_html=True)
