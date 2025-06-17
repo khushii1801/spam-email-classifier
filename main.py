@@ -49,10 +49,14 @@ st.markdown("""
     .main {
         padding: 0rem 1rem;
     }
-    .stApp {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+     html, body, .stApp {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background-attachment: fixed;
     }
-    .main-container {
+    .main > div {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px);
         border-radius: 20px;
