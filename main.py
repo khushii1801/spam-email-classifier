@@ -53,7 +53,7 @@ st.markdown("""
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         padding: 2rem !important;
     }
-    .main > div {
+    .main-container {
         background: white !important;
         backdrop-filter: none !important;
         border-radius: 20px;
