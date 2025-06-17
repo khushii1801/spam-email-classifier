@@ -310,8 +310,8 @@ if classify_button and email_text.strip():
                 </div>
                 """, unsafe_allow_html=True)
                     
-                # Progress bar for spam - FIXED THIS LINE
-                st.progress(float(confidence), text=f"Spam Probability: {confidence:.1%}"
+                # Fixed progress bar call - added closing parenthesis
+                st.progress(float(confidence), text=f"Spam Probability: {confidence:.1%}")
                     
             else:
                 st.markdown(f"""
@@ -325,7 +325,7 @@ if classify_button and email_text.strip():
                 </div>
                 """, unsafe_allow_html=True)
                     
-                # Progress bar for ham - FIXED THIS LINE
+                # Fixed progress bar call - added closing parenthesis
                 st.progress(float(confidence), text=f"Legitimate Probability: {confidence:.1%}")
                 
         except Exception as e:
@@ -334,6 +334,5 @@ if classify_button and email_text.strip():
 
 elif classify_button and not email_text.strip():
     st.warning("⚠️ Please enter some email content to classify.")
-
 if __name__ == "__main__":
     main()
