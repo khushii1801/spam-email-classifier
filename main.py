@@ -34,80 +34,95 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for professional styling with neutral colors
-st.markdown("""
+# Custom CSS with white background instead of purple gradient
+hide = """
 <style>
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
     .stApp { 
-        background-color: #f8f9fa;
+        background-color: #ffffff;
         margin-bottom: 0 !important;
     }
     .main > div:last-child {
         display: none !important;
     }
+</style>
+"""
+st.markdown(hide, unsafe_allow_html=True)
+
+# Rest of the CSS (unchanged except for background)
+st.markdown("""
+<style>
     .main {
         padding: 0rem 1rem;
     }
     .main > div {
-        background: white;
-        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
         padding: 2rem;
         margin: 1rem 0;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
     .metric-container {
-        background: #f1f3f5;
+        background: #f8f9fa;
         border-radius: 10px;
         padding: 1rem;
         margin: 0.5rem 0;
-        border-left: 4px solid #495057;
+        border-left: 4px solid #6c757d;
     }
     .spam-result {
-        background: #fff5f5;
+        background: #ffecec;
         border-radius: 10px;
         padding: 1.5rem;
-        border-left: 4px solid #dc2626;
+        border-left: 4px solid #dc3545;
         margin: 1rem 0;
     }
     .ham-result {
-        background: #f0fdf4;
+        background: #e8f5e9;
         border-radius: 10px;
         padding: 1.5rem;
-        border-left: 4px solid #059669;
+        border-left: 4px solid #28a745;
         margin: 1rem 0;
     }
+    .demo-button {
+        background: #e9ecef;
+        border: 1px solid #dee2e6;
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        margin: 0.25rem;
+        cursor: pointer;
+    }
     h1 {
-        color: #1a365d;
+        color: #343a40;
         text-align: center;
         font-size: 2.5rem;
         margin-bottom: 0.5rem;
     }
     .subtitle {
         text-align: center;
-        color: #4a5568;
+        color: #6c757d;
         font-size: 1.1rem;
         margin-bottom: 2rem;
     }
     .contact-form {
-        background: white;
+        background: #ffffff;
         padding: 1.2rem;
         border-radius: 10px;
         margin-top: 1rem;
-        border: 1px solid #e2e8f0;
+        border: 1px solid #dee2e6;
     }
     .contact-form input,
     .contact-form textarea {
         width: 100%;
         padding: 10px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid #ced4da;
         border-radius: 6px;
         margin: 6px 0 12px 0;
         font-size: 14px;
     }
     .contact-form button[type=submit] {
-        background: #1a365d;
+        background: #343a40;
         color: white;
         padding: 10px 15px;
         border: none;
@@ -133,8 +148,8 @@ def clean_text(text):
 
 # Download model files if they don't exist
 def download_model_files():
-    model_url = 'https://drive.google.com/uc?id=14G5dD8-KxQY94bAVI1zWGyxyDQCfBpAo'
-    vectorizer_url = 'https://drive.google.com/uc?id=17gpEgFMxPz0HLWFG0_O3F9Feju2UcODZ'
+    model_url = 'https://drive.google.com/uc?id=YOUR_MODEL_FILE_ID'
+    vectorizer_url = 'https://drive.google.com/uc?id=YOUR_VECTORIZER_FILE_ID'
     
     if not os.path.exists('model.pkl'):
         gdown.download(model_url, 'model.pkl', quiet=False)
@@ -145,7 +160,7 @@ def download_model_files():
 @st.cache_resource
 def load_model():
     try:
-        download_model_files() 
+        download_model_files()  # Download files if needed
         with open('model.pkl', 'rb') as f:
             model = pickle.load(f)
         with open('vectorizer.pkl', 'rb') as f:
@@ -156,7 +171,7 @@ def load_model():
         st.stop()
 
 def main():
-    # Header with neutral color scheme
+    # Header with clean styling
     st.markdown("<h1>🛡️ AI Spam Guardian</h1>", unsafe_allow_html=True)
     st.markdown("<p class='subtitle'>Advanced Email Classification System</p>", unsafe_allow_html=True)
     
@@ -206,8 +221,104 @@ def main():
 """
         st.markdown(contact_form, unsafe_allow_html=True)
     
-    # Rest of your app code remains the same...
-    # Demo examples, classification logic, etc.
+    # Demo examples
+    st.subheader("🎯 Try These Examples")
+    
+    demo_emails = {
+        "🚨 Spam Example": "CONGRATULATIONS! You've won $1,000,000! Click here immediately to claim your prize! Limited time offer! Act now or lose forever! Send your bank details to claim your cash reward NOW!",
+        "✅ Legitimate Example": "Hi Sarah, hope you're doing well. Just wanted to check in and see how the project is going. Let me know if you need any help with the quarterly report. Best regards, Mike",
+        "🛍️ Promotional Example": "🎉 FLASH SALE! 50% OFF everything! Free shipping worldwide! Buy now pay later! Credit card required! Hurry, only 24 hours left! Click now to save big money!"
+    }
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        if st.button("🚨 Load Spam Example", use_container_width=True):
+            st.session_state.email_text = demo_emails["🚨 Spam Example"]
+    
+    with col2:
+        if st.button("✅ Load Ham Example", use_container_width=True):
+            st.session_state.email_text = demo_emails["✅ Legitimate Example"]
+    
+    with col3:
+        if st.button("🛍️ Load Promo Example", use_container_width=True):
+            st.session_state.email_text = demo_emails["🛍️ Promotional Example"]
+    
+    # Input section
+    st.subheader("📧 Email Classification")
+    
+    # Text input
+    email_text = st.text_area(
+        "Enter email content to classify:",
+        value=st.session_state.get('email_text', ''),
+        height=200,
+        placeholder="Paste your email content here...",
+        help="Enter the full email content including subject line if available."
+    )
+    
+    # Classification buttons
+    col1, col2 = st.columns([3, 1])
+    
+    with col1:
+        classify_button = st.button("🧠 Classify Email", type="primary", use_container_width=True)
+    
+    with col2:
+        if st.button("🗑️ Clear", use_container_width=True):
+            st.session_state.email_text = ""
+            st.experimental_rerun()
+    
+    # Classification logic
+    if classify_button and email_text.strip():
+        with st.spinner("🔍 Analyzing email content..."):
+            try:
+                # Use trained model
+                cleaned_text = clean_text(email_text)
+                text_vectorized = vectorizer.transform([cleaned_text])
+                prediction = model.predict(text_vectorized)[0]
+                probability = model.predict_proba(text_vectorized)[0]
+                
+                is_spam = prediction == 1
+                confidence = max(probability)
+                
+                # Display results
+                st.subheader("🎯 Classification Results")
+                
+                if is_spam:
+                    st.markdown(f"""
+                    <div class='spam-result'>
+                        <h2 style='color: #dc2626; margin: 0;'>🚨 SPAM DETECTED</h2>
+                        <h3 style='color: #dc2626; margin: 0.5rem 0;'>Confidence: {confidence:.1%}</h3>
+                        <p style='color: #6b7280; margin: 0;'>
+                            This email contains characteristics commonly found in spam messages. 
+                            Exercise caution and avoid clicking links or providing personal information.
+                        </p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    # Progress bar for spam
+                    st.progress(confidence, text=f"Spam Probability: {confidence:.1%}")
+                    
+                else:
+                    st.markdown(f"""
+                    <div class='ham-result'>
+                        <h2 style='color: #059669; margin: 0;'>✅ LEGITIMATE EMAIL</h2>
+                        <h3 style='color: #059669; margin: 0.5rem 0;'>Confidence: {confidence:.1%}</h3>
+                        <p style='color: #6b7280; margin: 0;'>
+                            This email appears to be legitimate based on its content and structure. 
+                            It shows characteristics of normal communication.
+                        </p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    # Progress bar for ham
+                    st.progress(confidence, text=f"Legitimate Probability: {confidence:.1%}")
+                    
+            except Exception as e:
+                st.error(f"❌ An error occurred during classification: {str(e)}")
+                st.info("Please check your input and try again.")
+    
+    elif classify_button and not email_text.strip():
+        st.warning("⚠️ Please enter some email content to classify.")
 
 if __name__ == "__main__":
     main()
