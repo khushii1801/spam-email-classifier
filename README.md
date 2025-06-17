@@ -70,19 +70,6 @@ They will be automatically downloaded on first run using [`gdown`](https://githu
 
 ---
 
-## 📸 Preview
-
-![App Screenshot](https://your-screenshot-link-if-any.png)
-
----
-
-## 👨‍💻 Author
-
-**Your Name**  
-Beginner ML enthusiast | Streamlit learner  
-[LinkedIn](https://linkedin.com/in/your-profile) • [GitHub](https://github.com/your-username)
-
----
 
 ## 📃 License
 
