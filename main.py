@@ -46,18 +46,20 @@ st.markdown(hide, unsafe_allow_html=True)
 # Custom CSS for professional styling
 st.markdown("""
 <style>
-    .main {
+   .main {
         padding: 0rem 1rem;
     }
     .stApp {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem !important;
     }
     .main > div {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
+        background: white !important;
+        backdrop-filter: none !important;
         border-radius: 20px;
         padding: 2rem;
-        margin: 1rem 0;
+        margin: 0 auto;
+        max-width: 95%;
         box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
     }
     .metric-container {
