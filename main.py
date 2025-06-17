@@ -34,24 +34,24 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-
-# Minimal hide elements - only what's necessary
 hide = """
-<style>
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
-</style>
-"""
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
 st.markdown(hide, unsafe_allow_html=True)
 
-# Simplified CSS that works better with deployment
+# Custom CSS for professional styling
 st.markdown("""
 <style>
+    .main {
+        padding: 0rem 1rem;
+    }
     .stApp {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
-    
     .main > div {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px);
@@ -60,7 +60,6 @@ st.markdown("""
         margin: 1rem 0;
         box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
     }
-    
     .metric-container {
         background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
         border-radius: 10px;
@@ -68,7 +67,6 @@ st.markdown("""
         margin: 0.5rem 0;
         border-left: 4px solid #667eea;
     }
-    
     .spam-result {
         background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
         border-radius: 10px;
@@ -76,7 +74,6 @@ st.markdown("""
         border-left: 4px solid #dc2626;
         margin: 1rem 0;
     }
-    
     .ham-result {
         background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
         border-radius: 10px;
@@ -84,28 +81,32 @@ st.markdown("""
         border-left: 4px solid #059669;
         margin: 1rem 0;
     }
-    
+    .demo-button {
+        background: rgba(102, 126, 234, 0.1);
+        border: 1px solid rgba(102, 126, 234, 0.3);
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        margin: 0.25rem;
+        cursor: pointer;
+    }
     h1 {
         color: #dc143c;
         text-align: center;
         font-size: 3rem;
         margin-bottom: 0.5rem;
     }
-    
     .subtitle {
         text-align: center;
         color: #6b7280;
         font-size: 1.2rem;
         margin-bottom: 2rem;
     }
-    
-    .contact-form {
+     .contact-form {
         background: rgba(255, 255, 255, 0.15);
         padding: 1.2rem;
         border-radius: 10px;
         margin-top: 1rem;
     }
-    
     .contact-form input[type=text], 
     .contact-form input[type=email], 
     .contact-form textarea {
@@ -117,11 +118,9 @@ st.markdown("""
         background: rgba(255, 255, 255, 0.9);
         font-size: 14px;
     }
-    
     .contact-form textarea {
         min-height: 100px;
     }
-    
     .contact-form button[type=submit] {
         background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
@@ -134,7 +133,6 @@ st.markdown("""
         margin-top: 8px;
         transition: all 0.3s ease;
     }
-    
     .contact-form button[type=submit]:hover {
         background: linear-gradient(135deg, #764ba2, #667eea);
         transform: translateY(-1px);
@@ -156,6 +154,7 @@ def clean_text(text):
 # Load model and vectorizer
 @st.cache_resource
 def load_model():
+    
     model_id = "14G5dD8-KxQY94bAVI1zWGyxyDQCfBpAo"
     vectorizer_id = "17gpEgFMxPz0HLWFG0_O3F9Feju2UcODZ"
 
@@ -277,7 +276,7 @@ def main():
     with col2:
         if st.button("🗑️ Clear", use_container_width=True):
             st.session_state.email_text = ""
-            st.rerun()
+            st.experimental_rerun()
     
     # Classification logic
     if classify_button and email_text.strip():
