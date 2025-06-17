@@ -159,10 +159,10 @@ def load_model():
     vectorizer_id = "17gpEgFMxPz0HLWFG0_O3F9Feju2UcODZ"
 
     if not os.path.exists("model.pkl"):
-        gdown.download(f"https://drive.google.com/uc?id={model_id}", "model.pkl", quiet=False)
+        gdown.download(id=model_id, output="model.pkl", quiet=False)
 
     if not os.path.exists("vectorizer.pkl"):
-        gdown.download(f"https://drive.google.com/uc?id={vectorizer_id}", "vectorizer.pkl", quiet=False)
+        gdown.download(id=vectorizer_id, output="vectorizer.pkl", quiet=False)
 
     with open("model.pkl", "rb") as f:
         model = pickle.load(f)
