@@ -46,119 +46,127 @@ st.markdown(hide, unsafe_allow_html=True)
 # Custom CSS for professional styling
 st.markdown("""
 <style>
-    .main {
-        padding: 0rem 1rem;
-    }
-     html, body, .stApp {
+    html, body, .stApp {
         height: 100%;
         margin: 0;
         padding: 0;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         background-attachment: fixed;
+        background-size: cover;
     }
-    .main > div {
+
+    .block-container {
         background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
+        backdrop-filter: blur(16px);
         border-radius: 20px;
         padding: 2rem;
-        margin: 1rem 0;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        margin-top: 2rem;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
     }
+
     .metric-container {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-        border-radius: 10px;
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        border-radius: 12px;
         padding: 1rem;
-        margin: 0.5rem 0;
-        border-left: 4px solid #667eea;
+        margin-bottom: 1rem;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
     }
+
+    .spam-result, .ham-result {
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-top: 1.5rem;
+    }
+
     .spam-result {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
-        border-radius: 10px;
-        padding: 1.5rem;
-        border-left: 4px solid #dc2626;
-        margin: 1rem 0;
+        background: rgba(255, 0, 0, 0.08);
+        border-left: 6px solid #dc2626;
     }
+
     .ham-result {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
-        border-radius: 10px;
-        padding: 1.5rem;
-        border-left: 4px solid #059669;
-        margin: 1rem 0;
+        background: rgba(0, 128, 0, 0.08);
+        border-left: 6px solid #059669;
     }
-    .demo-button {
-        background: rgba(102, 126, 234, 0.1);
-        border: 1px solid rgba(102, 126, 234, 0.3);
-        border-radius: 20px;
-        padding: 0.5rem 1rem;
-        margin: 0.25rem;
-        cursor: pointer;
-    }
+
     h1 {
-        color: #dc143c;
         text-align: center;
         font-size: 3rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
+        color: #dc143c;
     }
+
     .subtitle {
         text-align: center;
         color: #6b7280;
         font-size: 1.2rem;
         margin-bottom: 2rem;
     }
-     .contact-form {
+
+    .demo-button {
+        border-radius: 15px;
+        border: 1px solid rgba(255,255,255,0.3);
+        background: rgba(255,255,255,0.2);
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .demo-button:hover {
+        background: rgba(255,255,255,0.4);
+    }
+
+    .stTextArea > div > textarea {
+        border-radius: 12px;
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .stButton > button {
+        border-radius: 10px;
+        font-weight: 600;
+        background-color: #667eea !important;
+        color: white !important;
+    }
+
+    .stButton > button:hover {
+        background-color: #5a67d8 !important;
+    }
+
+    .contact-form {
         background: rgba(255, 255, 255, 0.15);
         padding: 1.2rem;
         border-radius: 10px;
         margin-top: 1rem;
     }
-    .contact-form input[type=text], 
-    .contact-form input[type=email], 
-    .contact-form textarea {
+
+    .contact-form input, .contact-form textarea {
         width: 100%;
         padding: 10px;
         border: 1px solid rgba(102, 126, 234, 0.5);
         border-radius: 6px;
-        margin: 6px 0 12px 0;
         background: rgba(255, 255, 255, 0.9);
         font-size: 14px;
+        margin-bottom: 12px;
     }
-    .contact-form textarea {
-        min-height: 100px;
-    }
+
     .contact-form button[type=submit] {
         background: linear-gradient(135deg, #667eea, #764ba2);
         color: white;
         padding: 10px 15px;
         border: none;
         border-radius: 6px;
+        font-weight: bold;
         cursor: pointer;
         width: 100%;
-        font-weight: bold;
-        margin-top: 8px;
-        transition: all 0.3s ease;
-    }
-    .contact-form button[type=submit]:hover {
-        background: linear-gradient(135deg, #764ba2, #667eea);
-        transform: translateY(-1px);
-    }
-    html, body, .stApp {
-        height: 100% !important;
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-        background-size: cover !important;
-        background-attachment: fixed !important;
+        transition: 0.3s ease;
     }
 
-    .block-container {
-        padding: 2rem 1rem;
-        background-color: rgba(255, 255, 255, 0.9) !important;
-        border-radius: 20px;
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    .contact-form button[type=submit]:hover {
+        background: linear-gradient(135deg, #764ba2, #667eea);
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 # Text preprocessing function (matching your notebook exactly)
 def clean_text(text):
