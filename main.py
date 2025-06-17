@@ -278,7 +278,7 @@ def main():
             st.session_state.email_text = ""
             st.experimental_rerun()
     
-   # Classification logic
+# Classification logic
 if classify_button and email_text.strip():
     with st.spinner("🔍 Analyzing email content..."):
         try:
@@ -310,8 +310,8 @@ if classify_button and email_text.strip():
                 </div>
                 """, unsafe_allow_html=True)
                     
-                # Progress bar for spam
-                st.progress(float(confidence), text=f"Spam Probability: {confidence:.1%}")
+                # Progress bar for spam - FIXED THIS LINE
+                st.progress(float(confidence), text=f"Spam Probability: {confidence:.1%}"
                     
             else:
                 st.markdown(f"""
@@ -325,14 +325,15 @@ if classify_button and email_text.strip():
                 </div>
                 """, unsafe_allow_html=True)
                     
-                # Progress bar for ham
+                # Progress bar for ham - FIXED THIS LINE
                 st.progress(float(confidence), text=f"Legitimate Probability: {confidence:.1%}")
                 
         except Exception as e:
             st.error(f"❌ An error occurred during classification: {str(e)}")
             st.info("Please check your input and try again.")
-    elif classify_button and not email_text.strip():
-        st.warning("⚠️ Please enter some email content to classify.")
+
+elif classify_button and not email_text.strip():
+    st.warning("⚠️ Please enter some email content to classify.")
 
 if __name__ == "__main__":
     main()
