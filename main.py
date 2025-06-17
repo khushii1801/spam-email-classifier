@@ -11,6 +11,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import os
 import gdown
 
+
 # Download required NLTK data
 try:
     nltk.data.find('tokenizers/punkt')
@@ -34,31 +35,29 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 hide = """
-<style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    .stApp { margin-bottom: -50px; }  /* Removes bottom white space */
-</style>
-"""
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
 st.markdown(hide, unsafe_allow_html=True)
 
 # Custom CSS for professional styling
 st.markdown("""
 <style>
-   .main {
+    .main {
         padding: 0rem 1rem;
     }
     .stApp {
-        background-color: #f5f7fa;
-        padding: 2rem !important;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
-    .main-container {
-        background: white !important;
+    .main > div {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
         border-radius: 20px;
         padding: 2rem;
-        margin: 0 auto;
-        max-width: 95%;
+        margin: 1rem 0;
         box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
     }
     .metric-container {
@@ -91,21 +90,18 @@ st.markdown("""
         cursor: pointer;
     }
     h1 {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #dc143c;
         text-align: center;
         font-size: 3rem;
         margin-bottom: 0.5rem;
     }
     .subtitle {
         text-align: center;
-        color: #0066FF;
+        color: #6b7280;
         font-size: 1.2rem;
         margin-bottom: 2rem;
-        font-weight: 500;
     }
-    .contact-form {
+     .contact-form {
         background: rgba(255, 255, 255, 0.15);
         padding: 1.2rem;
         border-radius: 10px;
@@ -144,11 +140,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Text preprocessing function
+# Text preprocessing function (matching your notebook exactly)
 def clean_text(text):
     text = text.lower()
-    text = re.sub(r"http\S+|www\S+|https\S+", ' link ', text)
-    text = re.sub(r'\d+', ' number ', text)
+    text = re.sub(r"http\S+|www\S+|https\S+", ' link ', text)  # keep link token
+    text = re.sub(r'\d+', ' number ', text)  # keep number token
     text = re.sub(r'[^\w\s]', '', text) 
     text = text.translate(str.maketrans('', '', string.punctuation))
     words = text.split()
@@ -158,7 +154,7 @@ def clean_text(text):
 # Load model and vectorizer
 @st.cache_resource
 def load_model():
-    # Just the file IDs from Google Drive
+    
     model_id = "14G5dD8-KxQY94bAVI1zWGyxyDQCfBpAo"
     vectorizer_id = "17gpEgFMxPz0HLWFG0_O3F9Feju2UcODZ"
 
@@ -175,9 +171,10 @@ def load_model():
 
     return model, vectorizer
 
+
 # Main app
 def main():
-    # Header with new color scheme
+    # Header
     st.markdown("<h1>🛡️ AI Spam Guardian</h1>", unsafe_allow_html=True)
     st.markdown("<p class='subtitle'>Advanced Email Classification System</p>", unsafe_allow_html=True)
     
@@ -216,9 +213,8 @@ def main():
         st.markdown("**Algorithm:** Logistic Regression")
         st.markdown("**Features:** TF-IDF Vectorization")
         st.markdown("**Preprocessing:** Stemming, Stop-word removal")
-        
-        # Contact Us section
         st.markdown("---")
+       
         st.header("📬 Contact Us")
         st.markdown("""
         <div style="margin-bottom: 0.5rem;">
@@ -246,11 +242,10 @@ def main():
     
     demo_emails = {
         "🚨 Spam Example": "CONGRATULATIONS! You've won $1,000,000! Click here immediately to claim your prize! Limited time offer! Act now or lose forever! Send your bank details to claim your cash reward NOW!",
-        "✅ Legitimate Example": "Hi Sarah, hope you're doing well. Just wanted to check in and see how the project is going. Let me know if you need any help with the quarterly report. Best regards, Mike",
-        "🛍️ Promotional Example": "🎉 FLASH SALE! 50% OFF everything! Free shipping worldwide! Buy now pay later! Credit card required! Hurry, only 24 hours left! Click now to save big money!"
+        "✅ Legitimate Example": "Hi Sarah, hope you're doing well. Just wanted to check in and see how the project is going. Let me know if you need any help with the quarterly report. Best regards, Mike"
     }
     
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
     
     with col1:
         if st.button("🚨 Load Spam Example", use_container_width=True):
@@ -260,10 +255,6 @@ def main():
         if st.button("✅ Load Ham Example", use_container_width=True):
             st.session_state.email_text = demo_emails["✅ Legitimate Example"]
     
-    with col3:
-        if st.button("🛍️ Load Promo Example", use_container_width=True):
-            st.session_state.email_text = demo_emails["🛍️ Promotional Example"]
-    
     # Input section
     st.subheader("📧 Email Classification")
     
@@ -272,7 +263,7 @@ def main():
         "Enter email content to classify:",
         value=st.session_state.get('email_text', ''),
         height=200,
-        placeholder="Paste your email content here...",
+        placeholder="Paste your email content here...\n\nThe AI will analyze the text and classify it as SPAM or HAM (legitimate) with confidence scores.",
         help="Enter the full email content including subject line if available."
     )
     
@@ -332,7 +323,7 @@ def main():
                     
                     # Progress bar for ham
                     st.progress(confidence, text=f"Legitimate Probability: {confidence:.1%}")
-                    
+                
             except Exception as e:
                 st.error(f"❌ An error occurred during classification: {str(e)}")
                 st.info("Please check your input and try again.")
