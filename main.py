@@ -276,63 +276,65 @@ def main():
     with col2:
         if st.button("🗑️ Clear", use_container_width=True):
             st.session_state.email_text = ""
-            st.experimental_rerun()
+            st.rerun()
     
-# Classification logic
-if classify_button and email_text.strip():
-    with st.spinner("🔍 Analyzing email content..."):
-        try:
-            # Use trained model
-            cleaned_text = clean_text(email_text)
-            text_vectorized = vectorizer.transform([cleaned_text])
-            prediction = model.predict(text_vectorized)[0]
-            probabilities = model.predict_proba(text_vectorized)[0]
-            
-            # Fixed probability handling
-            probabilities = np.clip(probabilities, 0, 1)
-            confidence = probabilities[1] if prediction == 1 else probabilities[0]
-            confidence = min(1.0, max(0.0, confidence))  # Ensure between 0-1
-            
-            is_spam = prediction == 1
+    # Classification logic - MOVED INSIDE main() function
+    if classify_button and email_text.strip():
+        with st.spinner("🔍 Analyzing email content..."):
+            try:
+                # Use trained model
+                cleaned_text = clean_text(email_text)
+                text_vectorized = vectorizer.transform([cleaned_text])
+                prediction = model.predict(text_vectorized)[0]
+                probabilities = model.predict_proba(text_vectorized)[0]
                 
-            # Display results
-            st.subheader("🎯 Classification Results")
+                # Fixed probability handling
+                probabilities = np.clip(probabilities, 0, 1)
+                confidence = probabilities[1] if prediction == 1 else probabilities[0]
+                confidence = min(1.0, max(0.0, confidence))  # Ensure between 0-1
                 
-            if is_spam:
-                st.markdown(f"""
-                <div class='spam-result'>
-                    <h2 style='color: #dc2626; margin: 0;'>🚨 SPAM DETECTED</h2>
-                    <h3 style='color: #dc2626; margin: 0.5rem 0;'>Confidence: {confidence:.1%}</h3>
-                    <p style='color: #6b7280; margin: 0;'>
-                        This email contains characteristics commonly found in spam messages. 
-                        Exercise caution and avoid clicking links or providing personal information.
-                    </p>
-                </div>
-                """, unsafe_allow_html=True)
+                is_spam = prediction == 1
                     
-                # Fixed progress bar call - added closing parenthesis
-                st.progress(float(confidence), text=f"Spam Probability: {confidence:.1%}")
+                # Display results
+                st.subheader("🎯 Classification Results")
                     
-            else:
-                st.markdown(f"""
-                <div class='ham-result'>
-                    <h2 style='color: #059669; margin: 0;'>✅ LEGITIMATE EMAIL</h2>
-                    <h3 style='color: #059669; margin: 0.5rem 0;'>Confidence: {confidence:.1%}</h3>
-                    <p style='color: #6b7280; margin: 0;'>
-                        This email appears to be legitimate based on its content and structure. 
-                        It shows characteristics of normal communication.
-                    </p>
-                </div>
-                """, unsafe_allow_html=True)
+                if is_spam:
+                    st.markdown(f"""
+                    <div class='spam-result'>
+                        <h2 style='color: #dc2626; margin: 0;'>🚨 SPAM DETECTED</h2>
+                        <h3 style='color: #dc2626; margin: 0.5rem 0;'>Confidence: {confidence:.1%}</h3>
+                        <p style='color: #6b7280; margin: 0;'>
+                            This email contains characteristics commonly found in spam messages. 
+                            Exercise caution and avoid clicking links or providing personal information.
+                        </p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                        
+                    # Fixed progress bar call
+                    st.progress(float(confidence), text=f"Spam Probability: {confidence:.1%}")
+                        
+                else:
+                    st.markdown(f"""
+                    <div class='ham-result'>
+                        <h2 style='color: #059669; margin: 0;'>✅ LEGITIMATE EMAIL</h2>
+                        <h3 style='color: #059669; margin: 0.5rem 0;'>Confidence: {confidence:.1%}</h3>
+                        <p style='color: #6b7280; margin: 0;'>
+                            This email appears to be legitimate based on its content and structure. 
+                            It shows characteristics of normal communication.
+                        </p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                        
+                    # Fixed progress bar call
+                    st.progress(float(confidence), text=f"Legitimate Probability: {confidence:.1%}")
                     
-                # Fixed progress bar call - added closing parenthesis
-                st.progress(float(confidence), text=f"Legitimate Probability: {confidence:.1%}")
-                
-        except Exception as e:
-            st.error(f"❌ An error occurred during classification: {str(e)}")
-            st.info("Please check your input and try again.")
+            except Exception as e:
+                st.error(f"❌ An error occurred during classification: {str(e)}")
+                st.info("Please check your input and try again.")
 
-elif classify_button and not email_text.strip():
-    st.warning("⚠️ Please enter some email content to classify.")
+    elif classify_button and not email_text.strip():
+        st.warning("⚠️ Please enter some email content to classify.")
+
+
 if __name__ == "__main__":
     main()
