@@ -155,21 +155,23 @@ def clean_text(text):
 # Load model and vectorizer
 @st.cache_resource
 def load_model():
-    model_url = " https://drive.google.com/file/d/14G5dD8-KxQY94bAVI1zWGyxyDQCfBpAo/view?usp=drive_link"
-    vectorizer_url = "https://drive.google.com/file/d/17gpEgFMxPz0HLWFG0_O3F9Feju2UcODZ/view?usp=drive_link"
+    # Just the file IDs from Google Drive
+    model_id = "14G5dD8-KxQY94bAVI1zWGyxyDQCfBpAo"
+    vectorizer_id = "17gpEgFMxPz0HLWFG0_O3F9Feju2UcODZ"
 
     if not os.path.exists("model.pkl"):
-        gdown.download(model_url, "model.pkl", quiet=False)
+        gdown.download(id=model_id, output="model.pkl", quiet=False)
 
     if not os.path.exists("vectorizer.pkl"):
-        gdown.download(vectorizer_url, "vectorizer.pkl", quiet=False)
+        gdown.download(id=vectorizer_id, output="vectorizer.pkl", quiet=False)
 
-    with open('model.pkl', 'rb') as f:
+    with open("model.pkl", "rb") as f:
         model = pickle.load(f)
-    with open('vectorizer.pkl', 'rb') as f:
+    with open("vectorizer.pkl", "rb") as f:
         vectorizer = pickle.load(f)
 
-    return model, vectorizer, True
+    return model, vectorizer
+
 # Main app
 def main():
     # Header with new color scheme
