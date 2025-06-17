@@ -34,139 +34,195 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
-hide = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            header {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide, unsafe_allow_html=True)
 
-# Custom CSS for professional styling
+# Hide Streamlit elements - Fixed for deployment
+hide_streamlit_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+.stDeployButton {display:none;}
+.stDecoration {display:none;}
+div[data-testid="stToolbar"] {visibility: hidden;}
+div[data-testid="stDecoration"] {visibility: hidden;}
+div[data-testid="stStatusWidget"] {visibility: hidden;}
+#MainMenu {visibility: hidden;}
+header {visibility: hidden;}
+footer {visibility: hidden;}
+</style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+# Enhanced CSS for better deployment compatibility
 st.markdown("""
 <style>
-    html, body, .stApp {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        background-attachment: fixed;
-        background-size: cover;
-    }
-
+    /* Root container fixes */
     .block-container {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(16px);
+        padding-top: 1rem;
+        padding-bottom: 0rem;
+        padding-left: 5rem;
+        padding-right: 5rem;
+    }
+    
+    /* Main app styling - more robust selectors */
+    .stApp {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    }
+    
+    /* Content container - using more specific selectors */
+    .main .block-container {
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border-radius: 20px;
         padding: 2rem;
-        margin-top: 2rem;
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-    }
-
-    .metric-container {
-        background: linear-gradient(145deg, #ffffff, #f0f0f0);
-        border-radius: 12px;
-        padding: 1rem;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        margin-top: 1rem;
         margin-bottom: 1rem;
-        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
     }
-
-    .spam-result, .ham-result {
-        padding: 1.5rem;
-        border-radius: 12px;
-        margin-top: 1.5rem;
+    
+    /* Sidebar styling */
+    .css-1d391kg {
+        background: rgba(255, 255, 255, 0.1) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
     }
-
+    
+    /* Metric containers */
+    .metric-container {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        border-radius: 10px;
+        padding: 1rem;
+        margin: 0.5rem 0;
+        border-left: 4px solid #667eea;
+    }
+    
+    /* Result containers */
     .spam-result {
-        background: rgba(255, 0, 0, 0.08);
-        border-left: 6px solid #dc2626;
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1)) !important;
+        border-radius: 10px;
+        padding: 1.5rem;
+        border-left: 4px solid #dc2626;
+        margin: 1rem 0;
     }
-
+    
     .ham-result {
-        background: rgba(0, 128, 0, 0.08);
-        border-left: 6px solid #059669;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)) !important;
+        border-radius: 10px;
+        padding: 1.5rem;
+        border-left: 4px solid #059669;
+        margin: 1rem 0;
     }
-
+    
+    /* Button styling - more specific selectors */
+    .stButton > button {
+        background: linear-gradient(135deg, #667eea, #764ba2) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 10px !important;
+        padding: 0.5rem 1rem !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .stButton > button:hover {
+        background: linear-gradient(135deg, #764ba2, #667eea) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4) !important;
+    }
+    
+    /* Title styling */
     h1 {
-        text-align: center;
-        font-size: 3rem;
-        margin-bottom: 0.25rem;
-        color: #dc143c;
+        color: #1f2937 !important;
+        text-align: center !important;
+        font-size: 3rem !important;
+        margin-bottom: 0.5rem !important;
+        font-weight: 700 !important;
     }
-
+    
     .subtitle {
         text-align: center;
         color: #6b7280;
         font-size: 1.2rem;
         margin-bottom: 2rem;
+        font-weight: 400;
     }
-
-    .demo-button {
-        border-radius: 15px;
-        border: 1px solid rgba(255,255,255,0.3);
-        background: rgba(255,255,255,0.2);
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
+    
+    /* Text input styling */
+    .stTextArea > div > div > textarea {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border: 2px solid rgba(102, 126, 234, 0.3) !important;
+        border-radius: 10px !important;
+        font-size: 14px !important;
     }
-
-    .demo-button:hover {
-        background: rgba(255,255,255,0.4);
-    }
-
-    .stTextArea > div > textarea {
-        border-radius: 12px;
-        padding: 10px;
-        font-size: 15px;
-    }
-
-    .stButton > button {
-        border-radius: 10px;
-        font-weight: 600;
-        background-color: #667eea !important;
-        color: white !important;
-    }
-
-    .stButton > button:hover {
-        background-color: #5a67d8 !important;
-    }
-
+    
+    /* Contact form styling */
     .contact-form {
         background: rgba(255, 255, 255, 0.15);
         padding: 1.2rem;
         border-radius: 10px;
         margin-top: 1rem;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     }
-
-    .contact-form input, .contact-form textarea {
+    
+    .contact-form input[type=text], 
+    .contact-form input[type=email], 
+    .contact-form textarea {
         width: 100%;
         padding: 10px;
         border: 1px solid rgba(102, 126, 234, 0.5);
         border-radius: 6px;
+        margin: 6px 0 12px 0;
         background: rgba(255, 255, 255, 0.9);
         font-size: 14px;
-        margin-bottom: 12px;
     }
-
+    
+    .contact-form textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+    
     .contact-form button[type=submit] {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
+        background: linear-gradient(135deg, #667eea, #764ba2) !important;
+        color: white !important;
         padding: 10px 15px;
         border: none;
         border-radius: 6px;
-        font-weight: bold;
         cursor: pointer;
         width: 100%;
-        transition: 0.3s ease;
+        font-weight: bold;
+        margin-top: 8px;
+        transition: all 0.3s ease;
     }
-
+    
     .contact-form button[type=submit]:hover {
-        background: linear-gradient(135deg, #764ba2, #667eea);
+        background: linear-gradient(135deg, #764ba2, #667eea) !important;
+        transform: translateY(-1px);
+    }
+    
+    /* Progress bar styling */
+    .stProgress > div > div > div > div {
+        background: linear-gradient(135deg, #667eea, #764ba2) !important;
+    }
+    
+    /* Responsive design for mobile */
+    @media (max-width: 768px) {
+        .block-container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        h1 {
+            font-size: 2rem !important;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
-
 
 # Text preprocessing function (matching your notebook exactly)
 def clean_text(text):
@@ -179,26 +235,31 @@ def clean_text(text):
     words = [stemmer.stem(word) for word in words if word not in stop_words]
     return " ".join(words)
 
-# Load model and vectorizer
+# Load model and vectorizer with better error handling
 @st.cache_resource
 def load_model():
+    try:
+        model_id = "14G5dD8-KxQY94bAVI1zWGyxyDQCfBpAo"
+        vectorizer_id = "17gpEgFMxPz0HLWFG0_O3F9Feju2UcODZ"
+
+        if not os.path.exists("model.pkl"):
+            with st.spinner("Downloading model... This may take a moment."):
+                gdown.download(id=model_id, output="model.pkl", quiet=False)
+
+        if not os.path.exists("vectorizer.pkl"):
+            with st.spinner("Downloading vectorizer... This may take a moment."):
+                gdown.download(id=vectorizer_id, output="vectorizer.pkl", quiet=False)
+
+        with open("model.pkl", "rb") as f:
+            model = pickle.load(f)
+        with open("vectorizer.pkl", "rb") as f:
+            vectorizer = pickle.load(f)
+
+        return model, vectorizer
     
-    model_id = "14G5dD8-KxQY94bAVI1zWGyxyDQCfBpAo"
-    vectorizer_id = "17gpEgFMxPz0HLWFG0_O3F9Feju2UcODZ"
-
-    if not os.path.exists("model.pkl"):
-        gdown.download(id=model_id, output="model.pkl", quiet=False)
-
-    if not os.path.exists("vectorizer.pkl"):
-        gdown.download(id=vectorizer_id, output="vectorizer.pkl", quiet=False)
-
-    with open("model.pkl", "rb") as f:
-        model = pickle.load(f)
-    with open("vectorizer.pkl", "rb") as f:
-        vectorizer = pickle.load(f)
-
-    return model, vectorizer
-
+    except Exception as e:
+        st.error(f"Error loading model: {str(e)}")
+        st.stop()
 
 # Main app
 def main():
@@ -206,8 +267,12 @@ def main():
     st.markdown("<h1>🛡️ AI Spam Guardian</h1>", unsafe_allow_html=True)
     st.markdown("<p class='subtitle'>Advanced Email Classification System</p>", unsafe_allow_html=True)
     
-    # Load model
-    model, vectorizer = load_model()
+    # Load model with error handling
+    try:
+        model, vectorizer = load_model()
+    except Exception as e:
+        st.error("Failed to load the classification model. Please try refreshing the page.")
+        st.stop()
     
     # Sidebar with model info
     with st.sidebar:
@@ -278,10 +343,12 @@ def main():
     with col1:
         if st.button("🚨 Load Spam Example", use_container_width=True):
             st.session_state.email_text = demo_emails["🚨 Spam Example"]
+            st.rerun()
     
     with col2:
         if st.button("✅ Load Ham Example", use_container_width=True):
             st.session_state.email_text = demo_emails["✅ Legitimate Example"]
+            st.rerun()
     
     # Input section
     st.subheader("📧 Email Classification")
@@ -304,7 +371,7 @@ def main():
     with col2:
         if st.button("🗑️ Clear", use_container_width=True):
             st.session_state.email_text = ""
-            st.experimental_rerun()
+            st.rerun()
     
     # Classification logic
     if classify_button and email_text.strip():
