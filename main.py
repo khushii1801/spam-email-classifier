@@ -50,12 +50,11 @@ st.markdown("""
         padding: 0rem 1rem;
     }
     .stApp {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background-color: #f5f7fa;
         padding: 2rem !important;
     }
     .main-container {
         background: white !important;
-        backdrop-filter: none !important;
         border-radius: 20px;
         padding: 2rem;
         margin: 0 auto;
@@ -91,15 +90,17 @@ st.markdown("""
         margin: 0.25rem;
         cursor: pointer;
     }
-     h1 {
-        color: #FFA500;  
+    h1 {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         text-align: center;
         font-size: 3rem;
         margin-bottom: 0.5rem;
     }
     .subtitle {
         text-align: center;
-        color: #0066FF;  
+        color: #0066FF;
         font-size: 1.2rem;
         margin-bottom: 2rem;
         font-weight: 500;
